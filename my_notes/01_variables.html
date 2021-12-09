@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Variables</title>
+  <link rel="stylesheet" href="../base.css">
+</head>
+
+<body>
+  <script>
+    // 'use strict'
+    let first = 'nacho'; // variable declaration statement. variables tipo var se pueden updatear. Las variables var son function scoped
+    let age = 9; // variables tipo let se pueden updatear. Las variables let son block scoped
+    const cool = true; // no se puede updatear. Las variables let son block scoped
+    console.log(first); // function call statement
+
+    first = 'ignacio'; // no hace falta redeclarar con var o let
+    age = 20;
+
+    if (age > 10) {
+      // if statement (no necesita semicolon)
+      console.log('Sos viejo!');
+    }
+
+    // dog = 'perrito'; // si se usa 'use strict' esto explota (antes se podia y se dejo por retrocompatibilidad, pero no se debe declarar una variable asi)
+  </script>
+
+</body>
+
+</html>
