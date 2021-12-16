@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>HTML Base</title>
+  <link rel="stylesheet" href="../../base.css">
+</head>
+
+<body>
+  <script>
+    /*     function outer() {
+          const outerVar = 'Hey I am the outer Var!';
+          function inner() {
+            const innerVar = 'Hey I am an inner var!';
+            console.log(innerVar);
+            console.log(outerVar);
+          }
+          return inner;
+        }
+    
+        const innerFn = outer(); // Aunque la funcion de adentro ya se haya terminado de ejecutar, mantiene la variable en memoria para poder acceder
+        innerFn(); */
+
+    function createGreeting(greeting = '') {
+      const myGreet = greeting.toUpperCase();
+      return function (name) {
+        return `${myGreet} ${name}`;
+      };
+    }
+
+    const saludo1 = createGreeting('Hola');
+    const saludo2 = createGreeting('Buenas tardes');
+    console.log(saludo1('Nacho'));
+    console.log(saludo2('Brawlio'));
+  </script>
+</body>
+
+</html>
