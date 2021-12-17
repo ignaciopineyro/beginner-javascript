@@ -24,9 +24,10 @@
         innerFn(); */
 
     function createGreeting(greeting = '') {
-      const myGreet = greeting.toUpperCase();
+      // Outer function
+      const myGreet = greeting.toUpperCase(); // Variable en la outer function (outer scope). Es accesible en un scope mas bajo
       return function (name) {
-        return `${myGreet} ${name}`;
+        return `${myGreet} ${name}`; // Inner function (scope)
       };
     }
 
