@@ -17,3 +17,8 @@ const myHTML = `
 
 console.log(typeof myHTML); // Es un string, no un element
 item2.innerHTML = myHTML;
+
+// Pasar del string a elemento del DOM con "createContextualFragment"
+const myFragment = document.createRange().createContextualFragment(myHTML); // Range es una coleccion de elementos del HTML
+myFragment.querySelector('img'); // Los elementos que antes eran strings, ahora son elementos del DOM
+document.body.append(myFragment);
