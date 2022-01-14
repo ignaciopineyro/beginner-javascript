@@ -154,13 +154,44 @@
     */
 
     // find the first rating that talks about a burger with find()
+
+    function findByWord(word) {
+      return function(singleFeedback) {
+        return singleFeedback.comment.includes(word)
+      }
+    }
+    console.log(feedback);
+    const burgRating = feedback.find(findByWord('burg')); // Devuelve el valor del primer elemento del array que cumple la función de prueba proporcionada
+
     // find all ratings that are above 2 with filter()
+
+    function filterByMinRating(minRating){
+      return function (singleFeedback) {
+        return singleFeedback.rating > minRating
+      }
+    }
+    const goodReviews = feedback.filter(filterByMinRating(2));
+
     // find all ratings that talk about a burger with filter()
+
+    const burgRatings = feedback.filter(findByWord('burg'));
+
     // Remove the one star rating however you like!
 
+    const legitRating = feedback.filter(single => single.rating !==1); 
+
     // check if there is at least 5 of one type of meat with some()
+
+    const enoughMeat = Object.values(meats).some(meatValue => meatValue > 5); // Como meats es un object, agarro sus values y veo si hay almenos 1 value mayor a 5 (some retorna true en ese caso) 
+    
     // make sure we have at least 3 of every meat with every()
+
+    const enoughEveryMeat = Object.values(meats).every(meatValue => meatValue >= 3);
+
     // sort the toppings alphabetically with sort()
+
+
+    
     // sort the order totals from most expensive to least with .sort()
     // Sort the prices with sort()
 
