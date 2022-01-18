@@ -164,13 +164,29 @@ const cleanPeople = people.map(function (person) {
   const birthday = new Date(person.birthday).getTime();
   const now = Date.now();
   const age = Math.floor((now - birthday) / 31536000000);
-  
   return{
     age, // Es lo mismo que poner age: age,
     name: `${person.names.first} ${person.names.last}`,
   }
 });
 console.table(cleanPeople);
+
+const over40 = cleanPeople.filter(person => {
+  // .filter loopea en todo el array y arroja True or False en cada caso si se cumple la condicion y retorna un array
+  return person.age > 40;
+})
+console.table(over40);
+
+const student = students.find(stud => stud.id === '565a'); // .find retorna solo UN objeto
+console.log(student);
+
+function inventoryReducer(totals, item) {
+  totals[item.type] = totals[item.type] + 1 || 1;
+  return totals;
+}
+const inventoryCounts = inventory.reduce(inventoryReducer, {}); // Reduce un array de la manera que indique la callback
+console.log(inventoryCounts); 
+
   </script>
 </body>
 
