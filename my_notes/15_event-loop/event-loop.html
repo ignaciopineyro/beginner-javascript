@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Event Loop</title>
+  <link rel="stylesheet" href="../../base.css">
+</head>
+
+<body>
+  <style>
+    .go {
+      margin: 5rem;
+      background: white;
+      padding: 5rem;
+      width: 25rem;
+      height: 25rem;
+      transition: all 0.2s;
+    }
+
+    .go.circle {
+      border-radius: 50%;
+    }
+
+    .go.red {
+      background: red;
+    }
+
+    .go.red {
+      background: red;
+    }
+
+    .go.fadeOut {
+      opacity: 0;
+    }
+  </style>
+  <div class="go">Click Me</div>
+  <script>
+    // JS es singlethreaded (a diferencia de varios otros lenguajes), de manera que solo puede ejecutar 1 tarea del Call Stack a la vez
+    console.log('Start');
+    setTimeout(() => {
+      // En lugar de logear Start-Running-End, pasa el Running del Call Stack a Web Apis (lo encola) para ejecutarlo al final cuando se triggeree (por el timer en este caso)
+      console.log('Running');
+    }, 2000);
+    console.log('End');
+
+    // CALLBACK HELL - Es mala practica, se deberian usar Promises
+    const go = document.querySelector('.go');
+    // 1. Que el texto cambie a GO cuando se clickea
+    go.addEventListener('click', (e) => {
+      const el = e.currentTarget;
+      el.textContent = 'GO!';
+      setTimeout(() => {
+        // 2. Que se haga un circulo despues de 2seg
+        el.classList.add('circle');
+        // 3. Que se haga rojo despues de 0.5seg
+        setTimeout(() => {
+          el.classList.add('red');
+          // 4. Que se haga cuadrado despues de 0.25seg
+          setTimeout(() => {
+            el.classList.remove('circle');
+            // 5. Que se haga violeta despues de 0.3seg
+            setTimeout(() => {
+              el.classList.remove('red');
+              el.classList.add('purple');
+              // 6. Que haga fade-out despues de 0.5seg
+              setTimeout(() => {
+                el.classList.add('fadeOut');
+              }, 500);
+            }, 300);
+          }, 250);
+        }, 500);
+      }, 2000);
+    });
+  </script>
+</body>
+
+</html>

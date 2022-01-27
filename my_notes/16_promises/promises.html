@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Promises</title>
+  <link rel="stylesheet" href="../../base.css">
+</head>
+
+<body>
+  <script>
+    function makePizza(toppings = []) {
+      // Se hace la promise inmediatamente
+      return new Promise((resolve, reject) => {
+        const amountOfTimeToBake = 500 + toppings.length * 200;
+        setTimeout(() => {
+          resolve(`Entregada la pizza de ${toppings.join(', ')}`);
+        }, amountOfTimeToBake);
+      });
+    }
+
+    console.log('Arrancando...');
+    // SECUENCIAL: Se concatenan las acciones con .then
+    makePizza(['pepperoni'])
+      .then((pizza) => {
+        console.log(pizza);
+        return makePizza(['jamon', 'muzzarella']);
+      })
+      .then((pizza) => {
+        console.log(pizza);
+        return makePizza(['Tomate', 'Albahaca']);
+      })
+      .then((pizza) => {
+        console.log(pizza);
+      });
+    console.log('terminando...'); // Se ejecuta antes esto que la cadena de promises
+
+    // CONCURRENTE: Las hago todas juntas
+    const pizzaPromise1 = makePizza(['jamon crudo', 'rucula', 'oliva']);
+    const pizzaPromise2 = makePizza(['Anchoas', 'Tomate']);
+    const pizzaPromise3 = makePizza(['ciruela', 'panceta']);
+    const pizzaPromise4 = makePizza(['hongos']);
+
+    const dinnerPromise = Promise.all([
+      pizzaPromise1,
+      pizzaPromise2,
+      pizzaPromise3,
+      pizzaPromise4,
+    ]);
+
+    dinnerPromise.then((pizzas) => {
+      const [crudoRucu, anchoita, agridulce, marioBros] = pizzas;
+      console.log(crudoRucu, anchoita, agridulce, marioBros);
+    });
+  </script>
+</body>
+
+</html>
