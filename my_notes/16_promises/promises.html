@@ -13,6 +13,9 @@
     function makePizza(toppings = []) {
       // Se hace la promise inmediatamente
       return new Promise((resolve, reject) => {
+        if (toppings.includes('anana')) {
+          reject('Como le vas a poner eso a la pizza mostro?');
+        }
         const amountOfTimeToBake = 500 + toppings.length * 200;
         setTimeout(() => {
           resolve(`Entregada la pizza de ${toppings.join(', ')}`);
@@ -40,9 +43,13 @@
     const pizzaPromise1 = makePizza(['jamon crudo', 'rucula', 'oliva']);
     const pizzaPromise2 = makePizza(['Anchoas', 'Tomate']);
     const pizzaPromise3 = makePizza(['ciruela', 'panceta']);
-    const pizzaPromise4 = makePizza(['hongos']);
+    const pizzaPromise4 = makePizza(['hongos', 'anana']).catch((err) => {
+      console.log('Error catcheado!');
+      console.log(err);
+    });
 
     const dinnerPromise = Promise.all([
+      // Promise.all resuelve solo cuando estan todas las internas resueltas
       pizzaPromise1,
       pizzaPromise2,
       pizzaPromise3,
