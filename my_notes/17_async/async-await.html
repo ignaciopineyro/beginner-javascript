@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>Async await</title>
+	<link rel="stylesheet" href="../../base.css">
+</head>
+
+<body>
+	<script>
+		function wait(ms = 0) {
+			return new Promise((resolve) => {
+				setTimeout(resolve, ms);
+			});
+		}
+
+		async function go() {
+			console.log('Starting');
+			await wait(2000); // Solo se puede usar el await en promises dentro de async functions. Obliga a la funcion a esperar en lugar de mandarlo a una cola
+			console.log('ending');
+		}
+
+		go();
+
+		function makePizza(toppings = []) {
+			return new Promise((resolve, reject) => {
+				if (toppings.includes('anana')) {
+					reject('Como le vas a poner eso a la pizza mostro?');
+				}
+				const amountOfTimeToBake = 500 + toppings.length * 200;
+				setTimeout(() => {
+					resolve(`Entregada la pizza de ${toppings.join(', ')}`);
+				}, amountOfTimeToBake);
+			});
+		}
+
+		// Secuencial
+		async function makeDinnerSecuencial() {
+			const pizza1 = await makePizza(['pepperoni']); // Como el await es asincronico, no frena el resto de los procesos
+			console.log(pizza1);
+			const pizza2 = await makePizza(['anchoas', 'tomate']); // Va a empezar a hacer la 2da pizza sin tener la primera lista (secuencial)
+			console.log(pizza2);
+		}
+		makeDinnerSecuencial();
+
+		// Concurrente
+		async function makeDinnerConcurrent() {
+			const pizzaPromise1 = await makePizza(['pepperoni']);
+			const pizzaPromise2 = await makePizza(['anchoas', 'tomate']);
+			const pizzas = await Promise.all([pizzaPromise1, pizzaPromise2]); // Encierro todas las promises en una sola
+			console.log(pizzas);
+		}
+		makeDinnerConcurrent();
+
+	</script>
+</body>
+
+</html>
