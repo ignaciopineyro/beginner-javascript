@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>Async await</title>
+	<link rel="stylesheet" href="../../base.css">
+</head>
+
+<body>
+	<script>
+		function wait(ms = 0) {
+			return new Promise((resolve) => {
+				setTimeout(resolve, ms);
+			});
+		}
+
+		function makePizza(toppings = []) {
+			return new Promise((resolve, reject) => {
+				if (toppings.includes('anana')) {
+					reject('Como le vas a poner eso a la pizza mostro?');
+				}
+				const amountOfTimeToBake = 500 + toppings.length * 200;
+				setTimeout(() => {
+					resolve(`Entregada la pizza de ${toppings.join(', ')}`);
+				}, amountOfTimeToBake);
+			});
+		}
+
+		function handleError(err) {
+			console.log('ERROR HANDLING');
+			console.log(err);
+		}
+
+		// Usando try y catch
+		async function go() {
+			try {
+				// Cualquier error que suceda dentro de try no rompe el codigo
+				const pizza = await makePizza(['anana']);
+				console.log(pizza);
+			} catch (err) {
+				// Agarra los errores que aparecen en el try
+				console.log('ERROR');
+				console.log(err);
+			}
+		}
+
+		// Usando .catch
+		async function go2() {
+			const pizza = await makePizza(['anana']).catch(handleError);
+			console.log(pizza);
+		}
+
+		// Usando una high order function (HOF)
+		function makeSafe(fn, errorHandler) {
+			return function () {
+				fn().catch(handleError)
+			}
+		}
+		const safeGo = makeSafe(go, handleError);
+
+		go();
+		go().catch(handleError); // Se puede usar el catch en la funcion directamente
+		go2();
+		safeGo();
+
+
+	</script>
+</body>
+
+</html>
